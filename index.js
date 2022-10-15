@@ -105,23 +105,22 @@ const db = mysql.createConnection(
         mainMenu();
     };
 
-    const addEmployee = () => {
-        const sql = `INSERT INTO employee (first_name, last_name, role_id,manager_id) VALUES (?, ?, ?, ?)`;
-        const params = async () => { 
-            prompt ([
+    const addEmployee = async () => {
+         await prompt([
             {
                 type: 'input',
-                name:'firstName',
+                name:'first_name',
                 message:"What is the employee's first name?"
             },
             {
                 type: 'input',
-                name: 'lastName',
+                name: 'last_name',
                 message:"What is the employee's last name?"
             },
             {
                 type: 'list',
-                name: 'roleType',
+                name: 'role_id',
+                message: "What is their role?",
                 choices: [
                     'Sales Lead',
                     'IT Support',
@@ -130,13 +129,20 @@ const db = mysql.createConnection(
                     'Accountant'
                 ]
             }
-        ])
-    }
-        db.query(sql, params, (result));
-        console.log('employee added');
+        ]).then(function(answers) {
+            db.query(`INSERT INTO employee SET ?`, {
+            first_name: answers.first_name,
+            last_name: answers.last_name,
+            // role_id: answers.role_id
+        }),
+        console.log('added employee');
         mainMenu();
+    })
+};
+        // db.query(sql, params);
+        
 
-    };
+    
    
     
 
