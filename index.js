@@ -80,6 +80,7 @@ const mainMenu = async () => {
       break;
     case "ADD_ROLE":
       addRole();
+      break;
     case "EXIT":
       process.exit();
     default:
@@ -150,6 +151,7 @@ const addEmployee = async () => {
     mainMenu();
   });
 };
+
 const addDepartment = async () => {
   await prompt([
     {
@@ -167,10 +169,13 @@ const addDepartment = async () => {
 };
 
 const addRole = async () => {
-  const [departmentData] = await db.query(`SELECT * FROM department`);
+  const [departmentData] = await db.query(`SELECT * FROM department `);
   const formattedDepartment = departmentData.map((eachDepartment)=> {
-    return {name: eachDepartment.name, value: eachDepartment.name};
-  })
+    return {name: eachDepartment.name, value: eachDepartment.id};
+  });
+
+  console.log(formattedDepartment);
+
   await prompt([
     {
       type: "input",
