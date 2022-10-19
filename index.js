@@ -1,6 +1,5 @@
 const { prompt, default: inquirer } = require("inquirer");
 const mysql = require("mysql2");
-const art = require("ascii-art");
 require("console.table");
 // connects to database
 const db = mysql
